@@ -2,28 +2,31 @@ import { urlToDomainName } from '../libs/utils/index.ts';
 
 interface ItemProps {
   id: number;
-  no: string;
+  no?: string;
   title: string;
   source: string;
   points: number;
   author: string;
   createdAt: string;
   commentsCount: number;
+  text?: string;
 }
 
 export function Item(props: ItemProps) {
   return (
-    <section class='py-2 flex text-gray-400 gap-2'>
-      <div class='text-xl min-w-[2rem] text-right'>{props.no}</div>
-      <div class='w-[calc(100%-2.5rem)]'>
-        <div class='flex flex-wrap items-baseline'>
+    <section className='py-2 flex text-gray-400 gap-2'>
+      {props.no && (
+        <div className='text-xl min-w-[2rem] text-right'>{props.no}</div>
+      )}
+      <div className='w-[calc(100%-2.5rem)]'>
+        <div className='flex flex-wrap items-baseline'>
           <a href={props.source}>
-            <h2 class='text-lg text-black mr-1'>{props.title}</h2>
+            <h2 className='text-lg text-black mr-1'>{props.title}</h2>
           </a>
           {props.source && (
             <span>
               (
-              <a href='#' class='hover:underline'>
+              <a href='#' className='hover:underline'>
                 {urlToDomainName(props.source)}
               </a>
               )
@@ -31,21 +34,17 @@ export function Item(props: ItemProps) {
           )}
         </div>
 
-        <div class='text-sm'>
+        <div className='text-sm'>
           {props.points} points by {props.author} {props.createdAt} |{' '}
           <a
-            class='hover:underline'
+            className='hover:underline'
             href={`/item/${props.id}`}
             disabled={props.points <= 0}
           >
             {props.commentsCount} comments
           </a>
         </div>
-        {/* <Show when={isOpen()}>
-          <div class="overflow-scroll max-h-96 bg-white py-2 px-5 w-[calc(100%-10px)] max-w-[calc(100%-10px)]">
-            {props.children(isOpen())}
-          </div>
-        </Show> */}
+        {props.text && <div dangerouslySetInnerHTML={{ __html: props.text }} />}
       </div>
     </section>
   );

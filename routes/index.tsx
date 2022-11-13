@@ -73,7 +73,7 @@ export default function Home(props: PageProps<ItemFetcherResponse>) {
       <Head>
         <title>Fresh - HackerNews</title>
       </Head>
-      <div class='w-full bg-hackernews-body md:container md:my-2 m-auto'>
+      <div className='w-full bg-hackernews-body md:container md:my-2 m-auto'>
         <Header />
         {props.data.data.map((item, index) => {
           return (
@@ -93,7 +93,7 @@ export default function Home(props: PageProps<ItemFetcherResponse>) {
           );
         })}
         {props.data.canNext && (
-          <div class='text-gray-400 text-2xl mt-3 ml-10 pb-10'>
+          <div className='text-gray-400 text-2xl mt-3 ml-10 pb-10'>
             <a href={`/?p=${props.data.nextPage}`}>More</a>
           </div>
         )}

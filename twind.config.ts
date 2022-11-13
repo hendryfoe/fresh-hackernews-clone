@@ -5,7 +5,7 @@ export default {
   theme: {
     extend: {
       fontSize: {
-        // lg: ['1.125rem', { lineHeight: '1.5rem' }], // changed from 1.75rem
+        lg: ['1.125rem', { lineHeight: '1.5rem' }], // changed from 1.75rem
       },
       backgroundColor: {
         'hackernews-title': '#ff6600',
