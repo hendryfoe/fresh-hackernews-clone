@@ -9,7 +9,6 @@ export interface ItemData {
   text: string;
   type: string; // "job", "story", "comment", "poll", or "pollopt"
   url: string;
-
   deleted?: boolean;
   dead?: boolean;
   parent?: number;

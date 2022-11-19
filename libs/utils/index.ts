@@ -67,3 +67,11 @@ export function urlToDomainName(url: string) {
   return result.join('/').toLowerCase();
   // return url.replace(/(\/.+|\/)/, '');
 }
+
+export function getPageFromSearchParams(url: URL) {
+  let page = Number(url.searchParams.get('p'));
+  page = Number.isNaN(page) ? 0 : page;
+  page = page <= 1 ? 0 : page - 1;
+
+  return page;
+}

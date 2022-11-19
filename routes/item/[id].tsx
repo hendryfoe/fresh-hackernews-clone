@@ -1,54 +1,12 @@
 import { Head } from '$fresh/runtime.ts';
-import { PageProps, type Handlers } from '$fresh/server.ts';
+import { type Handlers, PageProps } from '$fresh/server.ts';
 
 import { Header } from '../../components/header.tsx';
 import { Item } from '../../components/item.tsx';
 import { Items } from '../../components/items.tsx';
-import { EndpointConstant } from '../../libs/constants/endpoint.constant.ts';
-import {
-  ItemData,
-  ItemDataEntity,
-  ItemDataWithChildren
-} from '../../libs/models/item.model.ts';
+import { ItemDataEntity } from '../../libs/models/item.model.ts';
+import { itemFetcher, itemWithCommentsFetcher } from '../../libs/queries/item.query.ts';
 import { getDifferentInDays } from '../../libs/utils/index.ts';
-import { Request } from '../../libs/utils/request.util.ts';
-
-async function itemFetcher(id: string): Promise<ItemData | null> {
-  const endpoint = `${EndpointConstant.API_URL}${EndpointConstant.ITEM}`;
-  const item = await Request.get<ItemData>(`${endpoint}/${id}.json`).catch(
-    () => {
-      return null;
-    }
-  );
-  return item;
-}
-
-async function itemsFetcher(ids: number[]): Promise<ItemDataWithChildren[]> {
-  const endpoint = `${EndpointConstant.API_URL}${EndpointConstant.ITEM}`;
-  const endpointPromises = ids.map((id) =>
-    Request.get<ItemDataWithChildren>(`${endpoint}/${id}.json`)
-  );
-  const items = await Promise.all(endpointPromises).catch(() => {
-    return [];
-  });
-  let filteredItems = items.filter((item) => !item.dead && !item.deleted);
-
-  filteredItems = await Promise.all(
-    filteredItems.map(async (item) => {
-      if (item.kids && item.kids.length > 0) {
-        const result = await itemsFetcher(item.kids);
-        return {
-          ...item,
-          children: result
-        };
-      }
-
-      return item;
-    })
-  );
-
-  return filteredItems;
-}
 
 export const handler: Handlers<ItemDataEntity> = {
   async GET(req, ctx) {
@@ -59,28 +17,28 @@ export const handler: Handlers<ItemDataEntity> = {
       return ctx.renderNotFound();
     }
 
-    const items = await itemsFetcher(item.kids);
+    const items = await itemWithCommentsFetcher(item.kids);
     const resp = await ctx.render({
       parent: item,
-      children: items
+      children: items,
     });
 
     return resp;
-  }
+  },
 };
 
 export default function ItemPage(props: PageProps<ItemDataEntity>) {
-  const item = props.data.parent
-  const items = props.data.children
+  const item = props.data.parent;
+  const items = props.data.children;
 
   return (
     <>
       <Head>
-        <title>Fresh - HackerNews</title>
+        <title>{item.title} | HackerNews</title>
       </Head>
       <div className='w-full bg-hackernews-body md:container md:my-2 m-auto'>
-        <Header />
-        <section className="px-10">
+        <Header route={props.route} />
+        <section className='px-10'>
           <Item
             id={item.id}
             title={item.title}
@@ -89,12 +47,12 @@ export default function ItemPage(props: PageProps<ItemDataEntity>) {
             author={item.by}
             createdAt={getDifferentInDays(
               new Date(item.time * 1000),
-              new Date()
+              new Date(),
             )}
             commentsCount={item.descendants ?? 0}
             text={item.text}
           />
-          {items && <Items items={items} /> }
+          {items && <Items items={items} />}
           {/* <pre>{JSON.stringify(props.data, null, 2)}</pre> */}
         </section>
       </div>
