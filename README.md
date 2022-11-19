@@ -1,4 +1,9 @@
-# fresh project
+# Hacker News Clone
+----
+
+#### [Click here to see a Preview](https://fresh-hackernews-clone.deno.dev)
+
+------
 
 ### Usage
 
