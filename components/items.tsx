@@ -15,8 +15,7 @@ export function Items(props: CommentProps) {
               <div className='text-sm text-gray-500 flex items-center'>
                 <span className='mr-0.5'>&#x2022;</span>
                 <h5>
-                  {item.by}{' '}
-                  {getDifferentInDays(new Date(item.time * 1000), new Date())}
+                  {item.by} {getDifferentInDays(new Date(item.time * 1000), new Date())}
                 </h5>
               </div>
               <div
