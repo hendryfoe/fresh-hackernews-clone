@@ -15,9 +15,7 @@ interface ItemProps {
 export function Item(props: ItemProps) {
   return (
     <section className='py-2 flex text-gray-400 gap-2'>
-      {props.no && (
-        <div className='text-xl min-w-[2rem] text-right'>{props.no}</div>
-      )}
+      {props.no && <div className='text-xl min-w-[2rem] text-right'>{props.no}</div>}
       <div className='w-[calc(100%-2.5rem)]'>
         <div className='flex flex-wrap items-baseline'>
           <a href={props.source}>
@@ -35,14 +33,19 @@ export function Item(props: ItemProps) {
         </div>
 
         <div className='text-sm'>
-          {props.points} points by {props.author} {props.createdAt} |{' '}
-          <a
-            className='hover:underline'
-            href={`/item/${props.id}`}
-            disabled={props.points <= 0}
-          >
-            {props.commentsCount} comments
-          </a>
+          {props.points} points by {props.author} {props.createdAt}
+          {props.commentsCount > 0 && (
+            <>
+              <span className='mx-1.5'>|</span>
+              <a
+                className='hover:underline'
+                href={`/item/${props.id}`}
+                disabled={props.points <= 0}
+              >
+                {props.commentsCount} comments
+              </a>
+            </>
+          )}
         </div>
         {props.text && <div dangerouslySetInnerHTML={{ __html: props.text }} />}
       </div>
