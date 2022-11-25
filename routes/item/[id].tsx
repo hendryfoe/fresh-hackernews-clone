@@ -35,6 +35,16 @@ export default function ItemPage(props: PageProps<ItemDataEntity>) {
     <>
       <Head>
         <title>{item.title} | HackerNews</title>
+        <style>{`
+          .item-content a {
+            text-decoration: underline;
+            color: rgba(107,114,128,var(--tw-text-opacity));
+          }
+          .item-content p {
+            margin-top: 8px;
+          }
+        `}
+        </style>
       </Head>
       <div className='w-full bg-hackernews-body md:container md:my-2 m-auto'>
         <Header route={props.route} />

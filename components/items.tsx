@@ -11,7 +11,7 @@ export function Items(props: CommentProps) {
       {props.items.map((item) => {
         return (
           <>
-            <section className='py-1 mb-2 before:content-["&#x2022"]'>
+            <section className='py-1 mb-2'>
               <div className='text-sm text-gray-500 flex items-center'>
                 <span className='mr-0.5'>&#x2022;</span>
                 <h5>
@@ -19,7 +19,7 @@ export function Items(props: CommentProps) {
                 </h5>
               </div>
               <div
-                className='ml-2 text-black text-base pt-1 [&_a]:underline [&_a]:text-gray-500 [&_p]:mt-2'
+                className='ml-2 text-black text-base pt-1 item-content'
                 dangerouslySetInnerHTML={{ __html: item.text }}
               />
             </section>

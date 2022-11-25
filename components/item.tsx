@@ -47,7 +47,7 @@ export function Item(props: ItemProps) {
             </>
           )}
         </div>
-        {props.text && <div dangerouslySetInnerHTML={{ __html: props.text }} />}
+        {props.text && <div className="item-content" dangerouslySetInnerHTML={{ __html: props.text }} />}
       </div>
     </section>
   );
