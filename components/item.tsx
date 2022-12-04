@@ -32,7 +32,7 @@ export function Item(props: ItemProps) {
           )}
         </div>
 
-        <div className='text-sm'>
+        <div className='text-xs'>
           {props.points} points by {props.author} {props.createdAt}
           {props.commentsCount > 0 && (
             <>
@@ -47,7 +47,7 @@ export function Item(props: ItemProps) {
             </>
           )}
         </div>
-        {props.text && <div className="item-content" dangerouslySetInnerHTML={{ __html: props.text }} />}
+        {props.text && <div className="item-content pt-1.5 text-sm overflow-hidden break-all" dangerouslySetInnerHTML={{ __html: props.text }} />}
       </div>
     </section>
   );

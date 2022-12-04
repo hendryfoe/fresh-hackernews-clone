@@ -40,15 +40,19 @@ export default function ItemPage(props: PageProps<ItemDataEntity>) {
             text-decoration: underline;
             color: rgba(107,114,128,var(--tw-text-opacity));
           }
+          .item-content pre {
+            overflow: hidden;
+            white-space: pre-wrap;
+          }
           .item-content p {
-            margin-top: 8px;
+            margin-top: 4px;
           }
         `}
         </style>
       </Head>
       <div className='w-full bg-hackernews-body md:container md:my-2 m-auto'>
         <Header route={props.route} />
-        <section className='px-10'>
+        <section className='px-10 pb-5'>
           <Item
             id={item.id}
             title={item.title}
