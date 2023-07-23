@@ -1,35 +1,28 @@
 import { Head } from '$fresh/runtime.ts';
-import { type Handlers, PageProps } from '$fresh/server.ts';
+import { type PageProps, type RouteContext } from '$fresh/server.ts';
 
 import { Header } from '../../components/header.tsx';
 import { Item } from '../../components/item.tsx';
 import { EndpointConstant } from '../../libs/constants/endpoint.constant.ts';
-import { ItemFetcherResponse, itemsFetcher } from '../../libs/queries/item.query.ts';
+import { itemsFetcher } from '../../libs/queries/item.query.ts';
 import { storiesFetcher } from '../../libs/queries/story.query.ts';
 import { getDifferentInDays, getPageFromSearchParams } from '../../libs/utils/index.ts';
 
-export const handler: Handlers<ItemFetcherResponse> = {
-  async GET(req, ctx) {
-    const url = new URL(req.url);
-    const page = getPageFromSearchParams(url);
+export default async function NewestPage(req: Request, ctx: RouteContext<PageProps>) {
+  const url = new URL(req.url);
+  const page = getPageFromSearchParams(url);
 
-    const stories = await storiesFetcher(EndpointConstant.NEW_STORIES);
-    const result = await itemsFetcher(stories, page);
-    const resp = await ctx.render(result);
+  const stories = await storiesFetcher(EndpointConstant.NEW_STORIES);
+  const result = await itemsFetcher(stories, page);
 
-    return resp;
-  },
-};
-
-export default function NewestPage(props: PageProps<ItemFetcherResponse>) {
   return (
     <>
       <Head>
         <title>News | Hacker News</title>
       </Head>
       <div className='w-full bg-hackernews-body md:container md:my-2 m-auto'>
-        <Header route={props.route} />
-        {props.data.data.map((item) => {
+        <Header route={ctx.route} />
+        {result.data.map((item) => {
           return (
             <Item
               id={item.id}
@@ -46,9 +39,9 @@ export default function NewestPage(props: PageProps<ItemFetcherResponse>) {
             />
           );
         })}
-        {props.data.canNext && (
+        {result.canNext && (
           <div className='text-gray-400 text-2xl mt-3 ml-10 pb-10'>
-            <a href={`?p=${props.data.nextPage}`}>More</a>
+            <a href={`?p=${result.nextPage}`}>More</a>
           </div>
         )}
       </div>

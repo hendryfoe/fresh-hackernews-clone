@@ -47,7 +47,12 @@ export function Item(props: ItemProps) {
             </>
           )}
         </div>
-        {props.text && <div className="item-content pt-1.5 text-sm overflow-hidden break-all" dangerouslySetInnerHTML={{ __html: props.text }} />}
+        {props.text && (
+          <div
+            className='item-content pt-1.5 text-sm overflow-hidden break-all'
+            dangerouslySetInnerHTML={{ __html: props.text }}
+          />
+        )}
       </div>
     </section>
   );
