@@ -7,3 +7,6 @@
 
 /.cargo_home/
 /.idea/
+
+# Fresh build directory
+_fresh/
